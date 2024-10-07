@@ -22,7 +22,7 @@ public abstract class AbbreviatedDescriptiveSmartEnum<TEnum> : AbbreviatedSmartE
     /// <param name="abbreviation">The abbreviation of the enum value.</param>
     /// <param name="description">The description of the enum value.</param>
     /// <param name="ignoreCase">A value indicating whether to ignore case when comparing abbreviations.</param>
-    protected AbbreviatedDescriptiveSmartEnum(string name, int value, string abbreviation, string description, bool ignoreCase = false)
+    protected AbbreviatedDescriptiveSmartEnum(string name, int value, string abbreviation, string? description = null, bool ignoreCase = false)
         : base(name, value, abbreviation, ignoreCase)
     {
         Description = description;
@@ -31,7 +31,7 @@ public abstract class AbbreviatedDescriptiveSmartEnum<TEnum> : AbbreviatedSmartE
     /// <summary>
     /// Gets or sets the description of the enum value.
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Retrieves all available options for the enum, including descriptions.
