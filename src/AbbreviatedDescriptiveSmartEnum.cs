@@ -14,6 +14,17 @@ namespace Soenneker.SmartEnum.AbbreviatedDescriptive;
 /// <typeparam name="TEnum">The type of the enum.</typeparam>
 public abstract class AbbreviatedDescriptiveSmartEnum<TEnum> : AbbreviatedSmartEnum<TEnum> where TEnum : AbbreviatedDescriptiveSmartEnum<TEnum>
 {
+    private string? _description;
+
+    /// <summary>
+    /// Gets or sets the description of the enum value. Returns Name if Description is null.
+    /// </summary>
+    public string Description
+    {
+        get => _description ?? Name;
+        set => _description = value;
+    }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="AbbreviatedDescriptiveSmartEnum{TEnum}"/> class.
     /// </summary>
@@ -25,13 +36,8 @@ public abstract class AbbreviatedDescriptiveSmartEnum<TEnum> : AbbreviatedSmartE
     protected AbbreviatedDescriptiveSmartEnum(string name, int value, string abbreviation, string? description = null, bool ignoreCase = false)
         : base(name, value, abbreviation, ignoreCase)
     {
-        Description = description;
+        _description = description;
     }
-
-    /// <summary>
-    /// Gets or sets the description of the enum value.
-    /// </summary>
-    public string? Description { get; set; }
 
     /// <summary>
     /// Retrieves all available options for the enum, including descriptions.
