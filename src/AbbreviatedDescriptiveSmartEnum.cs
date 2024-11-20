@@ -46,16 +46,16 @@ public abstract class AbbreviatedDescriptiveSmartEnum<TEnum> : AbbreviatedSmartE
     {
         Type baseType = typeof(TEnum);
 
-        List<TEnum> enumArray = Assembly.GetAssembly(baseType)!
+        List<TEnum> enums = Assembly.GetAssembly(baseType)!
             .GetTypes()
             .Where(baseType.IsAssignableFrom)
             .SelectMany(t => t.GetFieldsOfType<TEnum>())
             .OrderBy(t => t.Name)
             .ToList();
 
-        StaticIgnoreCase = enumArray.First().IgnoreCase;
+        StaticIgnoreCase = enums.First().IgnoreCase;
 
-        return enumArray;
+        return enums;
     }
 
     private static readonly Lazy<List<TEnum>> _enumOptionsWithDescriptions = new(GetAllOptionsWithDescriptions, LazyThreadSafetyMode.ExecutionAndPublication);
