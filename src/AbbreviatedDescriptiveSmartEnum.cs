@@ -42,23 +42,23 @@ public abstract class AbbreviatedDescriptiveSmartEnum<TEnum> : AbbreviatedSmartE
     /// <summary>
     /// Retrieves all available options for the enum, including descriptions.
     /// </summary>
-    private static TEnum[] GetAllOptionsWithDescriptions()
+    private static List<TEnum> GetAllOptionsWithDescriptions()
     {
         Type baseType = typeof(TEnum);
 
-        TEnum[] enumArray = Assembly.GetAssembly(baseType)!
+        List<TEnum> enumArray = Assembly.GetAssembly(baseType)!
             .GetTypes()
             .Where(baseType.IsAssignableFrom)
             .SelectMany(t => t.GetFieldsOfType<TEnum>())
             .OrderBy(t => t.Name)
-            .ToArray();
+            .ToList();
 
         StaticIgnoreCase = enumArray.First().IgnoreCase;
 
         return enumArray;
     }
 
-    private static readonly Lazy<TEnum[]> _enumOptionsWithDescriptions = new(GetAllOptionsWithDescriptions, LazyThreadSafetyMode.ExecutionAndPublication);
+    private static readonly Lazy<List<TEnum>> _enumOptionsWithDescriptions = new(GetAllOptionsWithDescriptions, LazyThreadSafetyMode.ExecutionAndPublication);
 
     /// <summary>
     /// Gets the enum value corresponding to the specified description.
@@ -70,7 +70,7 @@ public abstract class AbbreviatedDescriptiveSmartEnum<TEnum> : AbbreviatedSmartE
     {
         _ = _enumOptionsWithDescriptions.Value;
 
-        var enumValue = _enumOptionsWithDescriptions.Value
+        TEnum? enumValue = _enumOptionsWithDescriptions.Value
             .FirstOrDefault(enumValue => enumValue.Description == description);
 
         if (enumValue == null)
