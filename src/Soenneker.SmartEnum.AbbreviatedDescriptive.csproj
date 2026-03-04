@@ -41,6 +41,6 @@
     </ItemGroup>
     
     <ItemGroup>
-      <PackageReference Include="Soenneker.SmartEnum.Abbreviated" Version="4.0.1268" />
+      <PackageReference Include="Soenneker.SmartEnum.Abbreviated" Version="4.0.1269" />
     </ItemGroup>
 </Project>
