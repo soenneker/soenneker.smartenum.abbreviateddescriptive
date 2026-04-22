@@ -1,16 +1,15 @@
-using Soenneker.Tests.FixturedUnit;
-using Xunit;
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.SmartEnum.AbbreviatedDescriptive.Tests;
 
-[Collection("Collection")]
-public class AbbreviatedDescriptiveSmartEnumTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public class AbbreviatedDescriptiveSmartEnumTests : HostedUnitTest
 {
-    public AbbreviatedDescriptiveSmartEnumTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public AbbreviatedDescriptiveSmartEnumTests(Host host) : base(host)
     {
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
