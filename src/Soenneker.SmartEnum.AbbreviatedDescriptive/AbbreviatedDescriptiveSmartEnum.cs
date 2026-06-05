@@ -25,14 +25,6 @@ public abstract class AbbreviatedDescriptiveSmartEnum<TEnum> : AbbreviatedSmartE
         set => _description = value;
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AbbreviatedDescriptiveSmartEnum{TEnum}"/> class.
-    /// </summary>
-    /// <param name="name">The name of the enum value.</param>
-    /// <param name="value">The value of the enum.</param>
-    /// <param name="abbreviation">The abbreviation of the enum value.</param>
-    /// <param name="description">The description of the enum value.</param>
-    /// <param name="ignoreCase">A value indicating whether to ignore case when comparing abbreviations.</param>
     protected AbbreviatedDescriptiveSmartEnum(string name, int value, string abbreviation, string? description = null, bool ignoreCase = false)
         : base(name, value, abbreviation, ignoreCase)
     {
