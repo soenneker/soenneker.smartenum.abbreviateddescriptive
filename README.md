@@ -5,25 +5,45 @@
 
 # Soenneker.SmartEnum.AbbreviatedDescriptive
 
-Represents an abstract base class for abbreviated descriptive smart enums.
+A SmartEnum base class for values that need a name, integer value, abbreviation, and display description.
 
-## Install
+## Installation
 
 ```bash
 dotnet add package Soenneker.SmartEnum.AbbreviatedDescriptive
 ```
 
-## What you get
+## Defining an enum
 
-- `AbbreviatedDescriptiveSmartEnum<TEnum>` — Represents an abstract base class for abbreviated descriptive smart enums.
+```csharp
+using Soenneker.SmartEnum.AbbreviatedDescriptive;
 
-## API at a glance
+public sealed class ShippingMethod : AbbreviatedDescriptiveSmartEnum<ShippingMethod>
+{
+    public static readonly ShippingMethod Ground =
+        new(nameof(Ground), 1, "GND", "Ground shipping");
 
-| API | What it does | Result / important behavior |
-| --- | --- | --- |
-| `AbbreviatedDescriptiveSmartEnum<TEnum>.Description` | Gets or sets the description of the enum value. Returns Name if Description is null. | Gets or sets the description of the enum value. Returns Name if Description is null. |
-| `AbbreviatedDescriptiveSmartEnum<TEnum>.FromDescription(description)` | Gets the enum value corresponding to the specified description. | The enum value corresponding to the specified description. |
+    public static readonly ShippingMethod NextDay =
+        new(nameof(NextDay), 2, "NDA", "Next-day air");
 
-## Important behavior
+    private ShippingMethod(string name, int value, string abbreviation, string? description = null)
+        : base(name, value, abbreviation, description)
+    {
+    }
+}
+```
 
-- `AbbreviatedDescriptiveSmartEnum<TEnum>.FromDescription(description)`: Thrown when the specified description is not found.
+Members must be exposed as static fields so they can be discovered. When a description is omitted or set to `null`, `Description` returns the member's `Name`.
+
+## Usage
+
+```csharp
+ShippingMethod method = ShippingMethod.FromDescription("Next-day air");
+ShippingMethod sameMethod = ShippingMethod.FromAbbreviation("NDA");
+
+IReadOnlyList<string> labels = ShippingMethod.GetAllDescriptions();
+```
+
+`FromDescription` uses an ordinal, case-sensitive comparison and throws when no description matches. Use an exact stored description when converting external input. `GetAllDescriptions` returns a new list ordered by member name, so callers may modify that list without changing the enum definitions.
+
+Descriptions remain mutable and description lookup reads their latest values. Abbreviation lookup is initialized once by the base class, so treat abbreviations as immutable after the static members are created.
