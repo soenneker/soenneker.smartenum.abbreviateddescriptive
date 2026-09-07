@@ -60,17 +60,13 @@ public abstract class AbbreviatedDescriptiveSmartEnum<TEnum> : AbbreviatedSmartE
     /// <exception cref="Exception">Thrown when the specified description is not found.</exception>
     public static TEnum FromDescription(string description)
     {
-        _ = _enumOptionsWithDescriptions.Value;
-
-        TEnum? enumValue = _enumOptionsWithDescriptions.Value
-            .FirstOrDefault(enumValue => enumValue.Description == description);
-
-        if (enumValue == null)
+        foreach (TEnum enumValue in _enumOptionsWithDescriptions.Value)
         {
-            throw new Exception($"Description '{description}' not found in {nameof(AbbreviatedDescriptiveSmartEnum<TEnum>)}.");
+            if (enumValue.Description == description)
+                return enumValue;
         }
 
-        return enumValue;
+        throw new Exception($"Description '{description}' not found in {nameof(AbbreviatedDescriptiveSmartEnum<TEnum>)}.");
     }
 
     /// <summary>
@@ -79,10 +75,10 @@ public abstract class AbbreviatedDescriptiveSmartEnum<TEnum> : AbbreviatedSmartE
     /// <returns>A list of descriptions for all enum values.</returns>
     public static List<string> GetAllDescriptions()
     {
-        _ = _enumOptionsWithDescriptions.Value;
-
-        return _enumOptionsWithDescriptions.Value
-            .Select(enumValue => enumValue.Description)
-            .ToList();
+        List<TEnum> options = _enumOptionsWithDescriptions.Value;
+        var descriptions = new List<string>(options.Count);
+        foreach (TEnum option in options)
+            descriptions.Add(option.Description);
+        return descriptions;
     }
 }
